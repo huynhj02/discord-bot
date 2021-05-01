@@ -3,7 +3,6 @@ from datetime import datetime, timedelta
 import asyncio
 
 client = discord.Client()
-times = {datetime.min : 'Ayo'}
 
 @client.event
 async def on_ready():
