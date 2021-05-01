@@ -14,7 +14,4 @@ async def on_message(message):
     if message.content.startswith('$hello'):
         await message.channel.send('Hello!')
 
-with open('key.env', 'r') as file_obj:
-    token = file_obj.readline()
-
 client.run(token)
