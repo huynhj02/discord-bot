@@ -1,4 +1,4 @@
 # discord-bot
 
-testing hehe bren suks. let's goo
+testing hehe bren suks. let's gooo
 yo - bren
