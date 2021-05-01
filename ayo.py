@@ -27,4 +27,4 @@ async def on_message(message):
         motivate = quote('Motivational Quotes', limit=100)
         await message.channel.send(choice(motivate)['quote'])
 
-client.run('ODM4MDczMjQyMTc0NDg4NjI2.YI1yhw.sdFMhWmwc8OJ0tLjk-l8puO9nRo')
+client.run('')
