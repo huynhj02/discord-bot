@@ -58,11 +58,18 @@ async def on_message(message):
 
     if len(message.content.split()) == 3 and message.content.split()[0] == ('$pomodoro'):
         await message.channel.send(f'Starting timer for {message.content.split()[2]} minutes now')
-        await asyncio.sleep(timedelta(minutes=int(message.content.split()[2])).total_seconds())
-        await message.channel.send(f'{message.author.mention} {message.content.split()[1]} time is done')
+        try: 
+            await asyncio.sleep(timedelta(minutes=int(message.content.split()[2])).total_seconds())
+            await message.channel.send(f'{message.author.mention} {message.content.split()[1]} time is done')
+        except ValueError:
+            await asyncio.sleep(timedelta(minutes=float(message.content.split()[2])).total_seconds())
+            await message.channel.send(f'{message.author.mention} {message.content.split()[1]} time is done')
 
     if message.content == '$motivate':
         motivate = quote('Motivational Quotes', limit=100)
         await message.channel.send(choice(motivate)['quote'])
+
+    if message.content == '$mint':
+        await message.channel.send('https://external-preview.redd.it/kbRX84LNE0yam1EgdkegfxCBJDWqJNoKzfQysnFGyJ4.jpg?auto=webp&s=5447d91784c1bd9c5bc7f492f838718906915a40')
 
 client.run('')
