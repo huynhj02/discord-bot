@@ -40,10 +40,10 @@ async def on_ready():
 async def help(ctx):
     box = discord.Embed(title = "Help", description = "Use $help <command> for more details on a command\nExample: $help pomodoro\n\nRemember to stay hydrated!", color = ctx.author.color)
 
-    box.add_field(name = "Scheduling", value = "`pomodoro`\n`add`")
+    box.add_field(name = "Scheduling", value = "`pomodoro`\n`add`\n`remove`\n`schedule`")
     box.add_field(name = "Miscellaneous", value = "`motivate`\n`mint`")
     box.add_field(name = "GitHub", value = "**[Link](https://github.com/huynhj02/discord-bot)**")
-    box.set_footer(text = "Submission for RU Hacks 2021")
+    box.set_footer(text = "Submission for RU Hacks 2021: Digital")
     box.set_thumbnail(url = client.user.avatar_url)
     await ctx.send(embed = box)
 
@@ -57,7 +57,21 @@ async def pomodoro(ctx):
 @help.command()
 async def add(ctx):
     
-    box = discord.Embed(title = "Add", description = "In progress", color = ctx.author.color)
+    box = discord.Embed(title = "Add", description = "Add a task to your schedule", color = ctx.author.color)
+    box.add_field(name = "**Usage**", value = "$add <topic> <due date> <time due>\n<due date> - YYYY-MM-DD\n<time due> - Time between **00:00** and **23:59**")
+    await ctx.send(embed = box)
+
+@help.command() 
+async def remove(ctx):
+
+    box = discord.Embed(title = "Remove", description = "Remove a task from your schedule", color = ctx.author.color)
+    box.add_field(name = "**Usage**", value = "$remove <topic>")
+    await ctx.send(embed = box)
+
+@help.command()
+async def schedule(ctx):
+
+    box = discord.Embed(title = "Schedule", description = "View your current schedule and upcoming events", color = ctx.author.color)
     await ctx.send(embed = box)
 
 @help.command()
@@ -101,6 +115,7 @@ async def on_message(message):
         await message.channel.send(choice(motivate)['quote'])
 
     if message.content == '$mint':
+        await message.add_reaction('🥬')
         await message.channel.send('https://external-preview.redd.it/kbRX84LNE0yam1EgdkegfxCBJDWqJNoKzfQysnFGyJ4.jpg?auto=webp&s=5447d91784c1bd9c5bc7f492f838718906915a40')
 
     if len(message.content.split()) == 4 and message.content.split()[0] == ('$add'):
