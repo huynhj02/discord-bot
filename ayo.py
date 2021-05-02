@@ -33,7 +33,7 @@ client.remove_command("help")
 @client.event
 async def on_ready():
     print('We have logged in as {0.user}'.format(client))
-    await client.change_presence(activity = discord.Game('RU Hacks 2021: Digital'))
+    await client.change_presence(activity = discord.Game('$help | RU Hacks 2021: Digital'))
 
 # just run this regardless
 @client.group(invoke_without_command = True)
