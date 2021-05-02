@@ -20,9 +20,13 @@ async def on_ready():
 # just run this regardless
 @client.group(invoke_without_command = True)
 async def help(ctx):
-    box = discord.Embed(title = "Help", description = "Use $help <command> for more details on a command\nExample: $help pomodoro", color = ctx.author.color)
+    box = discord.Embed(title = "Help", description = "Use $help <command> for more details on a command\nExample: $help pomodoro\n\nRemember to stay hydrated!", color = ctx.author.color)
 
-    box.add_field(name = "Scheduling", value = "pomodoro\nadd")
+    box.add_field(name = "Scheduling", value = "`pomodoro`\n`add`")
+    box.add_field(name = "Miscellaneous", value = "`motivate`\n`mint`")
+    box.add_field(name = "GitHub", value = "**[Link](https://github.com/huynhj02/discord-bot)**")
+    box.set_footer(text = "Submission for RU Hacks 2021")
+    box.set_thumbnail(url = client.user.avatar_url)
     await ctx.send(embed = box)
 
 @help.command()
@@ -36,6 +40,18 @@ async def pomodoro(ctx):
 async def add(ctx):
     
     box = discord.Embed(title = "Add", description = "In progress", color = ctx.author.color)
+    await ctx.send(embed = box)
+
+@help.command()
+async def motivate(ctx):
+    
+    box = discord.Embed(title = "Motivate", description = "Inspirational quotes to keep you working", color = ctx.author.color)
+    await ctx.send(embed = box)
+
+@help.command()
+async def mint(ctx):
+
+    box = discord.Embed(title = "Mint", description = "Sends a picture of encouragemint!", color = ctx.author.color)
     await ctx.send(embed = box)
 
 # since $help <command> exists, CommandNotFound will happen when calling a command normally
