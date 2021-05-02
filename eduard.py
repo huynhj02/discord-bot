@@ -1,5 +1,5 @@
 import discord
-import datetime
+from datetime import datetime, timedelta
 from discord.ext import commands
 from discord.ext.commands import CommandNotFound
 import asyncio
@@ -43,7 +43,7 @@ async def help(ctx):
     box.add_field(name = "Scheduling", value = "`pomodoro`\n`add`\n`remove`\n`schedule`")
     box.add_field(name = "Miscellaneous", value = "`motivate`\n`mint`")
     box.add_field(name = "GitHub", value = "**[Link](https://github.com/huynhj02/discord-bot)**")
-    box.set_footer(text = "Submission for RU Hacks 2021: Digital")
+    box.set_footer(text = "Team Eduard's submission for RU Hacks 2021: Digital")
     box.set_thumbnail(url = client.user.avatar_url)
     await ctx.send(embed = box)
 
