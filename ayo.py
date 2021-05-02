@@ -1,10 +1,28 @@
 import discord
-from datetime import datetime, timedelta
+import datetime
 from discord.ext import commands
 from discord.ext.commands import CommandNotFound
 import asyncio
 from quote import quote
 from random import choice
+import pyrebase
+
+config = {
+    "apiKey": "",
+    "authDomain": "",
+    "databaseURL": "",
+    "projectId": "",
+    "storageBucket": "",
+    "messagingSenderId": "",
+    "appId": "",
+}
+
+firebase = pyrebase.initialize_app(config)
+email = ""
+password = ""
+auth = firebase.auth()
+user = auth.sign_in_with_email_and_password(email, password)
+db = firebase.database()
 
 client = discord.Client()
 
@@ -69,9 +87,6 @@ async def on_message(message):
 
     await client.process_commands(message)
 
-    if message.content.startswith('$add'):
-        await message.channel.send('add')
-
     if len(message.content.split()) == 3 and message.content.split()[0] == ('$pomodoro'):
         await message.channel.send(f'Starting timer for {message.content.split()[2]} minutes now')
         try: 
@@ -88,4 +103,35 @@ async def on_message(message):
     if message.content == '$mint':
         await message.channel.send('https://external-preview.redd.it/kbRX84LNE0yam1EgdkegfxCBJDWqJNoKzfQysnFGyJ4.jpg?auto=webp&s=5447d91784c1bd9c5bc7f492f838718906915a40')
 
-client.run('')
+    if len(message.content.split()) == 4 and message.content.split()[0] == ('$add'):
+        try:
+            date_given = datetime.datetime.strptime(f'{message.content.split()[2]} {message.content.split()[3]}', '%Y-%m-%d %H:%M')
+            db.child("users").child(message.author.id).child(message.content.split()[1]).child(message.content.split()[2]).child(message.content.split()[3]).set("Active")
+            await message.channel.send(f'Adding {message.content.split()[1]}')
+        except:
+            await message.channel.send('incorrect input : Insert as $add Topic YYYY-MM-DD 00:00')
+
+        
+    if message.content.split()[0] == ('$remove'):
+        if (len(message.content.split()) == 1):
+            db.child("users").child(message.author.id).remove()
+        elif (len(message.content.split()) == 2):
+            db.child("users").child(message.author.id).child(message.content.split()[1]).remove()
+        elif (len(message.content.split()) == 3):
+            db.child("users").child(message.author.id).child(message.content.split()[1]).child(message.content.split()[2]).remove()
+        elif (len(message.content.split()) == 4):
+            db.child("users").child(message.author.id).child(message.content.split()[1]).child(message.content.split()[2]).child(message.content.split()[3]).remove()
+
+        await message.channel.send(f'Removed')
+
+    if len(message.content.split()) == 1 and message.content.split()[0] == ('$schedule'):
+        courses = db.child("users").child(message.author.id).get()
+        for course in courses.each():
+            await message.channel.send(f'Subject: {course.key()}')
+            for day in course.val():
+                await message.channel.send(f'Day: {day}')
+                for times in (db.child("users").child(message.author.id).child(course.key()).child(day).get()).each():
+                    await message.channel.send(f'Time: {times.key()}')
+
+
+client.run("")
